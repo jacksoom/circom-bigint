@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --max-old-space-size=4000 -t 5s"
+    "test": "mocha --max-old-space-size=4000 -t 10s"
   },
   "keywords": [
     "circuit",
@@ -24,8 +24,8 @@
   "dependencies": {},
   "devDependencies": {
     "circom": "alex-ozdemir/circom#a5215f6",
-    "eslint-plugin-mocha": "^5.2.0",
-    "ganache-cli": "^6.4.4",
-    "mocha": "^5.2.0"
+    "snarkjs": "^0.1.11",
+    "mocha": "^5.2.0",
+    "chai": "^4.1.0"
   }
 }

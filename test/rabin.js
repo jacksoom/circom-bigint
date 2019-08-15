@@ -17,7 +17,7 @@ describe("RabinVerifier2048", () => {
     var N = p.times(q);
 
     before(async () => {
-        circuit = new snarkjs.Circuit(await compiler(path.join(__dirname, "..", "circuits", "rabin_2048.circom")));
+        circuit = new snarkjs.Circuit(await compiler(path.join(__dirname, "circuits", "rabin_2048.circom")));
     });
 
     it(`should have ${constraints(64, 32)} = ${extractExpr(constraints)} constraints (2048b)`, async () => {

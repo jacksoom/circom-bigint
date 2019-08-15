@@ -15,7 +15,7 @@ describe("BalanceHash", () => {
     before(async () => {
         bhash = new snarkjs.Circuit(
             await compiler(
-                path.join(__dirname, "..", "circuits", "balance_hash.circom")));
+                path.join(__dirname, "circuits", "balance_hash.circom")));
     });
 
     it("should have <= 5,000 constraints", async () => {

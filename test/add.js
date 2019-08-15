@@ -14,9 +14,9 @@ describe("FullAdder", () => {
     var fullAdder64;
 
     before(async () => {
-        fullAdder8 = await compiler(path.join(__dirname, "..", "circuits", "full_adder_8.circom"));
-        fullAdder32 = await compiler(path.join(__dirname, "..", "circuits", "full_adder_32.circom"));
-        fullAdder64 = await compiler(path.join(__dirname, "..", "circuits", "full_adder_64.circom"));
+        fullAdder8 = await compiler(path.join(__dirname, "circuits", "full_adder_8.circom"));
+        fullAdder32 = await compiler(path.join(__dirname, "circuits", "full_adder_32.circom"));
+        fullAdder64 = await compiler(path.join(__dirname, "circuits", "full_adder_64.circom"));
     });
 
     it("should have 13 constraints (8bit)", async () => {
@@ -134,7 +134,7 @@ describe("RippleCarryAdder", () => {
     var rcAdder42;
 
     before(async () => {
-        rcAdder42 = await compiler(path.join(__dirname, "..", "circuits", "rcadder_4bits_2words.circom"));
+        rcAdder42 = await compiler(path.join(__dirname, "circuits", "rcadder_4bits_2words.circom"));
     });
 
     it("should be compilable", async () => {

@@ -17,7 +17,7 @@ describe("RsAggVerifyDelta (64b RSA, 16b λ, 16b/word)", () => {
     before(async () => {
         rsa16_4_1_2 = new snarkjs.Circuit(
             await compiler(
-                path.join(__dirname, "..", "circuits", "rsa_acc_small.circom")));
+                path.join(__dirname, "circuits", "rsa_acc_small.circom")));
     });
 
     [

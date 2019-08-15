@@ -15,7 +15,7 @@ describe("WordMultiplier", () => {
     var cirDef;
 
     before(async () => {
-        cirDef = await compiler(path.join(__dirname, "..", "circuits", "word_multiplier_4.circom"));
+        cirDef = await compiler(path.join(__dirname, "circuits", "word_multiplier_4.circom"));
     });
 
     it("should be compilable", async () => {
@@ -44,7 +44,7 @@ describe("WordMultiplierWithCarry", () => {
     var cirDef;
 
     before(async () => {
-        cirDef = await compiler(path.join(__dirname, "..", "circuits", "word_multiplier_carry_4.circom"));
+        cirDef = await compiler(path.join(__dirname, "circuits", "word_multiplier_carry_4.circom"));
     });
 
     it("should be compilable", async () => {
@@ -84,7 +84,7 @@ describe("NBy1Multiplier", () => {
     var cirDef;
 
     before(async () => {
-        cirDef = await compiler(path.join(__dirname, "..", "circuits", "n_by_1_mult_4bit_2word.circom"));
+        cirDef = await compiler(path.join(__dirname, "circuits", "n_by_1_mult_4bit_2word.circom"));
     });
 
     it("should be compilable", async () => {
@@ -129,7 +129,7 @@ describe("Multiplier", () => {
     var cirDef;
 
     before(async () => {
-        cirDef = await compiler(path.join(__dirname, "..", "circuits", "mult_4bit_2word.circom"));
+        cirDef = await compiler(path.join(__dirname, "circuits", "mult_4bit_2word.circom"));
     });
 
     it("should be compilable", async () => {
@@ -245,8 +245,8 @@ describe("PolynomialMultiplier", () => {
     var polymult_d32;
 
     before(async () => {
-        polymult_d4 = await compiler(path.join(__dirname, "..", "circuits", "polymult_d4.circom"));
-        polymult_d32 = await compiler(path.join(__dirname, "..", "circuits", "polymult_d32.circom"));
+        polymult_d4 = await compiler(path.join(__dirname, "circuits", "polymult_d4.circom"));
+        polymult_d32 = await compiler(path.join(__dirname, "circuits", "polymult_d32.circom"));
     });
 
     it("should be compilable", async () => {
@@ -429,7 +429,7 @@ describe("AsymmetricPolynomialMultiplier", () => {
     var asymm_poly_2_5;
 
     before(async () => {
-        asymm_poly_2_5 = new snarkjs.Circuit(await compiler(path.join(__dirname, "..", "circuits", "asymm_poly_2_5.circom")));
+        asymm_poly_2_5 = new snarkjs.Circuit(await compiler(path.join(__dirname, "circuits", "asymm_poly_2_5.circom")));
     });
 
     it("should have 6 constraints (degrees 2, 5)", async () => {
@@ -484,7 +484,7 @@ describe("Carry", () => {
     var cirDef;
 
     before(async () => {
-        cirDef = await compiler(path.join(__dirname, "..", "circuits", "carry_3_4.circom"));
+        cirDef = await compiler(path.join(__dirname, "circuits", "carry_3_4.circom"));
     });
 
     it("should be compilable", async () => {
@@ -563,9 +563,9 @@ describe("LinearMultiplier", () => {
     var linmult_64bit_32word;
 
     before(async () => {
-        linmult_4bit_2word = await compiler(path.join(__dirname, "..", "circuits", "linmult_4bit_2word.circom"));
-        linmult_64bit_8word = await compiler(path.join(__dirname, "..", "circuits", "linmult_64bit_8word.circom"));
-        linmult_64bit_32word = await compiler(path.join(__dirname, "..", "circuits", "linmult_64bit_32word.circom"));
+        linmult_4bit_2word = await compiler(path.join(__dirname, "circuits", "linmult_4bit_2word.circom"));
+        linmult_64bit_8word = await compiler(path.join(__dirname, "circuits", "linmult_64bit_8word.circom"));
+        linmult_64bit_32word = await compiler(path.join(__dirname, "circuits", "linmult_64bit_32word.circom"));
     });
 
     it("should be compilable", async () => {
@@ -696,7 +696,7 @@ describe("Regroup", () => {
     var regroup_2_4_2;
     var constraints = (w, n, g) => (n / g + 1);
     before(async () => {
-        regroup_2_4_2 = new snarkjs.Circuit(await compiler(path.join(__dirname, "..", "circuits", "regroup_2_4_2.circom")));
+        regroup_2_4_2 = new snarkjs.Circuit(await compiler(path.join(__dirname, "circuits", "regroup_2_4_2.circom")));
     });
 
     it(`should have ${constraints(2, 4, 4)} = ${extractExpr(constraints)} constraints`, async () => {

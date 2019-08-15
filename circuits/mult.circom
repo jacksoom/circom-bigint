@@ -187,13 +187,12 @@ template Regroup(w, n, g) {
     signal input in[n];
     signal output out[nGroups];
 
-    var lc[nGroups];
     for (var i = 0; i < nGroups; ++i) {
-        lc[i] = 0;
+        var lc = 0;
         for (var j = 0; j < g && i * g + j < n; ++j) {
-            lc[i] += (2 ** (w * j)) * in[i * g + j];
+            lc += (2 ** (w * j)) * in[i * g + j];
         }
-        out[i] <== lc[i];
+        out[i] <== lc;
     }
 }
 
