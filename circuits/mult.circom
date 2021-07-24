@@ -26,11 +26,11 @@ template PolynomialMultiplier(d) {
 
     component inner = AsymmetricPolynomialMultiplier(d, d);
     for (var i = 0; i < d; ++i) {
-        inner.in0[i] <== a[i];
-        inner.in1[i] <== b[i];
+        inner.in0[i] <-- a[i];
+        inner.in1[i] <-- b[i];
     }
     for (var i = 0; i < 2 * d - 1; ++i) {
-        inner.out[i] ==> prod[i];
+        inner.out[i] --> prod[i];
     }
 }
 
@@ -102,7 +102,7 @@ template Carry(w, n) {
 
     signal carry[n+1];
 
-    carry[0] <== 0;
+    carry[0] <-- 0;
 
     for (var i = 0; i < n; i++) {
         out[i] <-- (in[i] + carry[i]) % (2 ** w);
@@ -113,13 +113,13 @@ template Carry(w, n) {
 
         // Verify our parts fit in w bits.
         outBitDecomps[i] = Num2Bits(w);
-        outBitDecomps[i].in <== out[i];
+        outBitDecomps[i].in <-- out[i];
         carryBitDecomps[i] = Num2Bits(w + 1);
-        carryBitDecomps[i].in <== carry[i + 1];
+        carryBitDecomps[i].in <-- carry[i + 1];
     }
 
     // The final carry is our final word
-    out[n] <== carry[n];
+    out[n] <-- carry[n];
 }
 
 template EqualWhenCarried(wordMax, outWidth, n) {
@@ -154,7 +154,7 @@ template EqualWhenCarried(wordMax, outWidth, n) {
     var outBase = 2 ** outWidth;
     var accumulatedExtra = 0;
 
-    carry[0] <== 0;
+    carry[0] <-- 0;
 
     for (var i = 0; i < n; i++) {
         // We add an extra (wordMax) to the carry to ensure that it is positive
@@ -173,7 +173,7 @@ template EqualWhenCarried(wordMax, outWidth, n) {
         // Verify that our carry fits in `carryBits` bits
         if (i < n - 1) {
             carryBitDecomps[i] = Num2Bits(carryBits);
-            carryBitDecomps[i].in <== carry[i + 1];
+            carryBitDecomps[i].in <-- carry[i + 1];
         } else {
             // The final carry should match the extra
             carry[i + 1] === accumulatedExtra;
@@ -192,7 +192,7 @@ template Regroup(w, n, g) {
         for (var j = 0; j < g && i * g + j < n; ++j) {
             lc += (2 ** (w * j)) * in[i * g + j];
         }
-        out[i] <== lc;
+        out[i] <-- lc;
     }
 }
 
@@ -235,8 +235,8 @@ template EqualWhenCarriedRegroup(wordMax, outWidth, n) {
     component bGrouper = Regroup(outWidth, n, chunksPerGroup);
 
     for (var i = 0; i < n; ++i) {
-        aGrouper.in[i] <== a[i];
-        bGrouper.in[i] <== b[i];
+        aGrouper.in[i] <-- a[i];
+        bGrouper.in[i] <-- b[i];
     }
 
     // Now, check carries
@@ -244,8 +244,8 @@ template EqualWhenCarriedRegroup(wordMax, outWidth, n) {
 
 
     for (var i = 0; i < nGroups; ++i) {
-        equality.a[i] <== aGrouper.out[i];
-        equality.b[i] <== bGrouper.out[i];
+        equality.a[i] <-- aGrouper.out[i];
+        equality.b[i] <-- bGrouper.out[i];
     }
 }
 
@@ -266,18 +266,18 @@ template LinearMultiplier(w, n) {
 
     // Put our inputs into the polynomial multiplier
     for (var i = 0; i < n; i++) {
-        polyMultiplier.a[i] <== a[i];
-        polyMultiplier.b[i] <== b[i];
+        polyMultiplier.a[i] <-- a[i];
+        polyMultiplier.b[i] <-- b[i];
     }
 
     // Put the polynomial product into the carrier
     for (var i = 0; i < 2 * n - 1; i++) {
-        carrier.in[i] <== polyMultiplier.prod[i];
+        carrier.in[i] <-- polyMultiplier.prod[i];
     }
 
     // Take the carrier output as our own
     for (var i = 0; i < 2 * n; i++) {
-        prod[i] <== carrier.out[i];
+        prod[i] <-- carrier.out[i];
     }
 }
 
@@ -302,22 +302,22 @@ template LinearMultiplierWithAdd(w, n) {
 
     // Put our inputs into the polynomial multiplier
     for (var i = 0; i < n; i++) {
-        polyMultiplier.a[i] <== a[i];
-        polyMultiplier.b[i] <== b[i];
+        polyMultiplier.a[i] <-- a[i];
+        polyMultiplier.b[i] <-- b[i];
     }
 
     // Put the polynomial product into the carrier
     for (var i = 0; i < 2 * n - 1; i++) {
         if (i < n) {
-            carrier.in[i] <== polyMultiplier.prod[i] + c[i];
+            carrier.in[i] <-- polyMultiplier.prod[i] + c[i];
         } else {
-            carrier.in[i] <== polyMultiplier.prod[i];
+            carrier.in[i] <-- polyMultiplier.prod[i];
         }
     }
 
     // Take the carrier output as our own
     for (var i = 0; i < 2 * n; i++) {
-        prod[i] <== carrier.out[i];
+        prod[i] <-- carrier.out[i];
     }
 }
 
@@ -337,12 +337,12 @@ template MultiplierReducer(w, n) {
 
     component inner = AsymmetricMultiplierReducer(w, n, n);
     for (var i = 0; i < n; ++i) {
-        inner.in0[i] <== a[i];
-        inner.in1[i] <== b[i];
-        inner.modulus[i] <== modulus[i];
+        inner.in0[i] <-- a[i];
+        inner.in1[i] <-- b[i];
+        inner.modulus[i] <-- modulus[i];
     }
     for (var i = 0; i < n; ++i) {
-        inner.prod[i] ==> prod[i];
+        inner.prod[i] --> prod[i];
     }
 }
 
@@ -394,24 +394,24 @@ template AsymmetricMultiplierReducer(w, n1, n2) {
     component prodDecomp[n1];
     for (var i = 0; i < n1; i++) {
         prodDecomp[i] = Num2Bits(w);
-        prodDecomp[i].in <== prod[i];
+        prodDecomp[i].in <-- prod[i];
     }
 
     component quotientDecomp[n2];
     for (var i = 0; i < n2; i++) {
         quotientDecomp[i] = Num2Bits(w);
-        quotientDecomp[i].in <== quotient[i];
+        quotientDecomp[i].in <-- quotient[i];
     }
 
     component left = AsymmetricPolynomialMultiplier(n1, n2);
     component right = AsymmetricPolynomialMultiplier(n1, n2);
     for (var i = 0; i < n1; ++i) {
-        left.in0[i] <== in0[i];
-        right.in0[i] <== modulus[i];
+        left.in0[i] <-- in0[i];
+        right.in0[i] <-- modulus[i];
     }
     for (var i = 0; i < n2; ++i) {
-        right.in1[i] <== quotient[i];
-        left.in1[i] <== in1[i];
+        right.in1[i] <-- quotient[i];
+        left.in1[i] <-- in1[i];
     }
 
     var minN = n1;
@@ -423,11 +423,11 @@ template AsymmetricMultiplierReducer(w, n1, n2) {
     component carry = EqualWhenCarriedRegroup(maxWord, w, n - 1);
     for (var i = 0; i < n - 1; ++i) {
         if (i < n1) {
-            carry.a[i] <== left.out[i];
-            carry.b[i] <== right.out[i] + prod[i];
+            carry.a[i] <-- left.out[i];
+            carry.b[i] <-- right.out[i] + prod[i];
         } else {
-            carry.a[i] <== left.out[i];
-            carry.b[i] <== right.out[i];
+            carry.a[i] <-- left.out[i];
+            carry.b[i] <-- right.out[i];
         }
     }
 }
@@ -446,18 +446,18 @@ template MultiProduct(w, modulusChunks, inputChunks, nInputs) {
     for (var i = 0; i < nInputs; ++i) {
         multiplier[i] = AsymmetricMultiplierReducer(w, modulusChunks, inputChunks);
         for (var j = 0; j < inputChunks; ++j) {
-            multiplier[i].in1[j] <== in[i][j];
+            multiplier[i].in1[j] <-- in[i][j];
         }
         for (var j = 0; j < modulusChunks; ++j) {
-            multiplier[i].modulus[j] <== modulus[j];
+            multiplier[i].modulus[j] <-- modulus[j];
             if (i == 0) {
-                multiplier[i].in0[j] <== (j == 0 ? 1 : 0);
+                multiplier[i].in0[j] <-- (j == 0 ? 1 : 0);
             } else {
-                multiplier[i].in0[j] <== multiplier[i - 1].prod[j];
+                multiplier[i].in0[j] <-- multiplier[i - 1].prod[j];
             }
         }
     }
     for (var j = 0; j < modulusChunks; ++j) {
-        out[j] <== multiplier[nInputs - 1].prod[j];
+        out[j] <-- multiplier[nInputs - 1].prod[j];
     }
 }
